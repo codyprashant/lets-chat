@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input, InputGroupAddon, InputGroup, Media, Button, UncontrolledTooltip } from "reactstrap";
-import {  Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label,  Collapse, CardHeader, CardBody, Alert,  Card } from 'reactstrap';
+import {  Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label,  Alert } from 'reactstrap';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import SimpleBar from "simplebar-react";
@@ -18,7 +18,8 @@ class Chats extends React.Component {
         newChatUserMessage: "",
         isOpenAlert: false,
         errormessage:"",
-        chatexistsId: ""
+        chatexistsId: "",
+        filteredData:[]
 
     }
 
@@ -30,25 +31,23 @@ class Chats extends React.Component {
         }
     }
 
-    handleChange(e)  {
-        console.log(e.target)
-        // this.setState({ searchChat : e.target.value });
-        // var search = e.target.value;
-        // let conversation = this.state.recentChatList;
-        // let filteredArray = [];
-        
-        // //find conversation name from array
-        // for (let i = 0; i < conversation.length; i++) {
-        //     if(conversation[i].name.toLowerCase().includes(search) || conversation[i].name.toUpperCase().includes(search))
-        //         filteredArray.push(conversation[i]);
-        // }
+    // handleChange(e)  {
+    //     this.setState({ searchChat : e.target.value });
+    //     var search = e.target.value;
+    //     let filteredArray = [];
+    //     this.props.chats.map((chat) =>
+    //         this.props.allUserData.forEach((list) => {
+    //             if (list.email === (chat.users[0] !== this.props.userEmail ? chat.users[0] : chat.users[1])) {
+    //                 if(list.name.toLowerCase().includes(search) || list.name.toUpperCase().includes(search)){
+    //                     filteredArray.push(list.email);
+    //                 }
+    //             }
+    //         })
+    //     )
 
-        // //set filtered items to state
-        // this.setState({ recentChatList : filteredArray })
-
-        // //if input value is blanck then assign whole recent chatlist to array
-        // if(search === "") this.setState({ recentChatList : this.props.recentChatList })
-    }
+    //     this.setState({ filteredData : filteredArray })
+    //     if(search === "") this.setState({ filteredData : [] })
+    // }
 
     toggle() {
         console.log(this.state)
@@ -119,7 +118,7 @@ class Chats extends React.Component {
       };
 
     goToChat = async () => {
-        alert("Chat Is Already Exists");
+        this.setState({errormessage: "Chat Already Exists",isOpenAlert : true })
     };
 
     async createNewChat(){
@@ -189,13 +188,13 @@ class Chats extends React.Component {
                         <div>
                             <div className="px-4 pt-4">
                             <div className="user-chat-nav float-right">
-                                    <div  id="create-group">
+                                    <div  id="create-chat">
                                         {/* Button trigger modal */}
                                         <Button onClick={() => this.setState({ modal : !this.state.modal })} type="button" color="link" className="text-decoration-none text-muted font-size-18 py-0">
-                                            <i className="ri-group-line mr-1"></i>
+                                        <i className="ri-message-3-line ri-xl"></i>
                                         </Button>
                                     </div>
-                                    <UncontrolledTooltip target="create-group" placement="bottom">
+                                    <UncontrolledTooltip target="create-chat" placement="bottom">
                                         New Chat
                                     </UncontrolledTooltip>
                                 </div>
@@ -223,11 +222,6 @@ class Chats extends React.Component {
                                     </ModalFooter>
                                 </Modal>
 
-
-
-
-
-
                                 <h4 className="mb-4">Chats</h4>
                                 <div className="search-box chat-search-box">
                                     <InputGroup size="lg" className="mb-3 bg-light rounded-lg">
@@ -249,7 +243,8 @@ class Chats extends React.Component {
                                     <ul className="list-unstyled chat-list chat-user-list" id="chat-list">
                                         {this.props.chats.length > 0 ?
                                             this.props.chats.map((chat, key) =>
-                                                <li key={key} id={"conversation" + key} 
+                                                // { (this.state.filteredData.length > 0) && (this.state.filteredData.includes(chat.users[0] !== this.props.userEmail ? chat.users[0]: chat.users[1])) ?
+                                                    <li key={key} id={"conversation" + key} 
                                                 className={
                                                     // chat.unRead ? "unread" : chat.isTyping ?  "typing" : 
                                                      key === this.props.active_user ? "active" : ""}
@@ -257,28 +252,16 @@ class Chats extends React.Component {
                                                     <Link to="#" onClick={(e) => this.openUserChat(e, chat)}>
                                                         <Media>
                                                             {
-                                                                // chat.profilePicture === "Null" ?
-                                                                //     <div className={"chat-user-img " + chat.status +" align-self-center mr-3"}>
-                                                                //         <div className="avatar-xs">
-                                                                //             <span className="avatar-title rounded-circle bg-soft-primary text-primary">
-                                                                //                 {chat.name.charAt(0)}
-                                                                //             </span>
-                                                                //         </div>
-                                                                //         {
-                                                                //             chat.status &&  <span className="user-status"></span>
-                                                                //         }
-                                                                //     </div>
-                                                                // :
-                                                                    <div className={"chat-user-img " + chat.status +" align-self-center mr-3"}>
-                                                                        <img src={this.props.allUserData.map((list) => {
-                                                                                    if ( list.email ===(chat.users[0] !== this.props.userEmail ? chat.users[0] : chat.users[1])) {
-                                                                                        return list.image;
-                                                                                    } else {  return ""; }
-                                                                                }).join("").trim("")} className="rounded-circle avatar-xs" alt="letschat" />
-                                                                        {
-                                                                            chat.status &&  <span className="user-status"></span>
-                                                                        }
-                                                                    </div>
+                                                                <div className={"chat-user-img " + chat.status +" align-self-center mr-3"}>
+                                                                    <img src={this.props.allUserData.map((list) => {
+                                                                                if ( list.email ===(chat.users[0] !== this.props.userEmail ? chat.users[0] : chat.users[1])) {
+                                                                                    return list.image;
+                                                                                } else {  return ""; }
+                                                                            }).join("").trim("")} className="rounded-circle avatar-xs" alt="letschat" />
+                                                                    {
+                                                                        chat.status &&  <span className="user-status"></span>
+                                                                    }
+                                                                </div>
                                                             }
                                                             
                                                             <Media body className="overflow-hidden">
@@ -294,12 +277,12 @@ class Chats extends React.Component {
                                                                 </h5>
                                                                 <p className="chat-user-message text-truncate mb-0">
                                                                     {
-                                                                        ((chat.typing).length > 0 && (chat.typing).includes(this.props.userEmail)) ?
+                                                                        ((chat.typing).length > 0 && (chat.typing).includes((chat.users[0] !== this.props.userEmail ? chat.users[0] : chat.users[1]))) ?
                                                                         <>
-                                                                            typing<span className="animate-typing">
-                                                                            <span className="dot ml-1"></span>
-                                                                            <span className="dot ml-1"></span>
-                                                                            <span className="dot ml-1"></span>
+                                                                            <span className="animate-typing" style={{color: "#7269ef"}}>typing
+                                                                            <span className="dot ml-1" style={{color: "#7269ef"}}></span>
+                                                                            <span className="dot ml-1" style={{color: "#7269ef"}}></span>
+                                                                            <span className="dot ml-1" style={{color: "#7269ef"}}></span>
                                                                         </span>
                                                                         </>
                                                                         :

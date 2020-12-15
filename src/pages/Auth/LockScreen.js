@@ -4,19 +4,12 @@ import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-//i18n
-import { useTranslation } from 'react-i18next';
-
 //Import Images
 import logodark from "../../assets/images/logo-dark.png";
 import logolight from "../../assets/images/logo-light.png";
 import avatar1 from "../../assets/images/users/avatar-1.jpg";
 
 function LockScreen(props) {
-
-    /* intilize t variable for multi language implementation */
-    const { t } = useTranslation();
-
     // validation
     const formik = useFormik({
         initialValues: {

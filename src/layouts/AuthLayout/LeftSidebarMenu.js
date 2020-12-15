@@ -4,16 +4,13 @@ import { Nav, NavItem, NavLink, UncontrolledTooltip, Dropdown, DropdownItem, Dro
 import classnames from "classnames";
 import { connect } from "react-redux";
 import { setActiveTab } from "../../redux/actions";
-
-//Import Images
 import logo from "../../assets/images/logo.svg"
-import avatar1 from "../../assets/images/users/avatar-1.jpg";
 
 function LeftSidebarMenu(props) {
 
-    const [dropdownOpen, setDropdownOpen] = useState(false);
+    // const [dropdownOpen, setDropdownOpen] = useState(false);
     const [dropdownOpenMobile, setDropdownOpenMobile] = useState(false);
-    const toggle = () => setDropdownOpen(!dropdownOpen);
+    // const toggle = () => setDropdownOpen(!dropdownOpen);
     const toggleMobile = () => setDropdownOpenMobile(!dropdownOpenMobile);
 
     const toggleTab = tab => {
@@ -44,14 +41,14 @@ function LeftSidebarMenu(props) {
                 {/* Start side-menu nav */}
                 <div className="flex-lg-column my-auto">
                     <Nav pills className="side-menu-nav justify-content-center" role="tablist">
-                        <NavItem id="profile">
+                        {/* <NavItem id="profile">
                             <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'profile' })} onClick={() => { toggleTab('profile'); }}>
                             <img src={'https://ui-avatars.com/api/?name=Prashant Gupta'} alt="letschat" className="profile-user rounded-circle" />
                             </NavLink>
                         </NavItem>
                         <UncontrolledTooltip target="profile" placement="top">
                             Profile
-                        </UncontrolledTooltip>
+                        </UncontrolledTooltip> */}
                         <NavItem id="Chats">
                             <NavLink id="pills-chat-tab" className={classnames({ active: activeTab === 'chat' })} onClick={() => { toggleTab('chat'); }}>
                                 <i className="ri-message-3-line"></i>
@@ -60,25 +57,26 @@ function LeftSidebarMenu(props) {
                         <UncontrolledTooltip target="Chats" placement="top">
                         Chats
                         </UncontrolledTooltip>
-                        <NavItem id="Groups">
+                        {/* <NavItem id="Groups">
                             <NavLink id="pills-groups-tab" className={classnames({ active: activeTab === 'group' })} onClick={() => { toggleTab('group'); }}>
                                 <i className="ri-group-line"></i>
                             </NavLink>
                         </NavItem>
                         <UncontrolledTooltip target="Groups" placement="top">
                         Groups
-                        </UncontrolledTooltip>
-                        <NavItem id="Contacts">
+                        </UncontrolledTooltip> */}
+                        {/* <NavItem id="Contacts">
                             <NavLink id="pills-contacts-tab" className={classnames({ active: activeTab === 'contacts' })} onClick={() => { toggleTab('contacts'); }}>
                                 <i className="ri-contacts-line"></i>
                             </NavLink>
                         </NavItem>
                         <UncontrolledTooltip target="Contacts" placement="top">
                         Contacts
-                        </UncontrolledTooltip>
+                        </UncontrolledTooltip> */}
                         <NavItem id="Settings">
                             <NavLink id="pills-setting-tab" className={classnames({ active: activeTab === 'settings' })} onClick={() => { toggleTab('settings'); }}>
-                            <i className="ri-settings-2-line"></i>
+                            {/* <i className="ri-settings-2-line"></i> */}
+                            <i className="ri-user-2-line"></i>
                             </NavLink>
                         </NavItem>
                         <UncontrolledTooltip target="Settings" placement="top">

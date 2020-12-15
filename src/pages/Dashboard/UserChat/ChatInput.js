@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
-import { Button, Input, Row, Col, UncontrolledTooltip, ButtonDropdown, DropdownToggle, DropdownMenu, Label, Form } from "reactstrap";
-import { Picker } from 'emoji-mart'
+import { Button, Input, Row, Col,
+    //  UncontrolledTooltip, ButtonDropdown, DropdownToggle, DropdownMenu, Label, 
+     Form } from "reactstrap";
+// import { Picker } from 'emoji-mart'
 import 'emoji-mart/css/emoji-mart.css'
+import { initFirebaseBackend } from "../../../helpers/firebase";
 
 function ChatInput(props) {
     const [textMessage, settextMessage] = useState("");
-    const [isOpen, setisOpen] = useState(false);
+    // const [isOpen, setisOpen] = useState(false);
     const [file, setfile] = useState({
         name : "",
         size : ""
     });
     const [fileImage, setfileImage] = useState("")
 
-    const toggle = () => setisOpen(!isOpen);
+    // const toggle = () => setisOpen(!isOpen);
 
     //function for text input value change
     const handleChange = e => {
@@ -20,25 +23,25 @@ function ChatInput(props) {
     }
 
     //function for add emojis
-    const addEmoji = e => {
-        let emoji = e.native;
-        settextMessage(textMessage+emoji)
-    };
+    // const addEmoji = e => {
+    //     let emoji = e.native;
+    //     settextMessage(textMessage+emoji)
+    // };
 
     //function for file input change
-    const handleFileChange = e => {
-        if(e.target.files.length !==0 )
-        setfile({
-            name : e.target.files[0].name,
-            size : e.target.files[0].size
-        })
-    }
+    // const handleFileChange = e => {
+    //     if(e.target.files.length !==0 )
+    //     setfile({
+    //         name : e.target.files[0].name,
+    //         size : e.target.files[0].size
+    //     })
+    // }
 
     //function for image input change
-    const handleImageChange = e => {
-        if(e.target.files.length !==0 )
-        setfileImage(URL.createObjectURL(e.target.files[0]))
-    }
+    // const handleImageChange = e => {
+    //     if(e.target.files.length !==0 )
+    //     setfileImage(URL.createObjectURL(e.target.files[0]))
+    // }
 
     //function for send data to onaddMessage function(in userChat/index.js component)
     const onaddMessage = (e, textMessage) => {
@@ -65,6 +68,48 @@ function ChatInput(props) {
         }
     }
 
+    const typing = async () => {
+        const { docid } = props.chats;
+        const { userEmail } = props;
+        let finalData = await getCurrentTypingData(docid);
+    
+
+          if (!finalData.includes(userEmail)) {
+            await finalData.push(userEmail);
+          }
+        
+    console.log(finalData)
+        await initFirebaseBackend().firestore().collection("chats").doc(docid).update({
+          typing: finalData,
+        });
+    };
+
+    const getCurrentTypingData = async (docid) => {
+         try {
+          const dt = await initFirebaseBackend().firestore().collection("chats").doc(docid).get().then((obj) => {
+              return obj.data().typing;
+            });
+          return dt;
+        } catch (e) {
+          return [];
+        }
+      };
+    
+      const focus = async () => {
+        await typing();
+      }
+
+      const blur = async () => {
+        const { docid } = props.chats;
+        const { userEmail } = props;
+        let finalData = await getCurrentTypingData(docid);
+        finalData = finalData.filter((ob) => { if (ob !== userEmail) { return ob; } });
+        console.log(finalData)
+        await initFirebaseBackend().firestore().collection("chats").doc(docid).update({
+          typing: finalData,
+        });
+    }
+    
     return (
         <React.Fragment>
             <div className="p-3 p-lg-4 border-top mb-0">
@@ -72,7 +117,7 @@ function ChatInput(props) {
                                 <Row noGutters>
                                     <Col>
                                         <div>
-                                            <Input type="text" value={textMessage} onChange={handleChange} className="form-control form-control-lg bg-light border-light" placeholder="Enter Message..." />
+                                            <Input type="text" value={textMessage} onChange={handleChange} onFocus={focus} onBlur={blur} className="form-control form-control-lg bg-light border-light" placeholder="Enter Message..." />
                                         </div>
                                     </Col>
                                     <Col xs="auto">

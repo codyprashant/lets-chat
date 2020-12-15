@@ -19,13 +19,10 @@ import logolight from "../../assets/images/logo-light.png";
  */
 const ForgetPassword = (props) => {
 
-    const clearError = () => {
-        props.apiError("");
-    }
+    const clearError = () => { props.apiError("");  }
 
-    useEffect(clearError, []);
+    useEffect(clearError, [props]);
 
-    // validation
     const formik = useFormik({
         initialValues: {
             email: ''

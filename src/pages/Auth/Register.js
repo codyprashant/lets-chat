@@ -22,7 +22,7 @@ const Register = (props) => {
         props.apiError("");
     }
    
-    useEffect(clearError, []);
+    useEffect(clearError, [props]);
 
     // validation
     const formik = useFormik({

@@ -40,7 +40,8 @@ class FirebaseAuthBackend {
                     isOnline: false,
                     blockList: [],
                     isVerify: false,
-                    description: ""
+                    description: "",
+                    status: ""
 
                 })
                 resolve(response);

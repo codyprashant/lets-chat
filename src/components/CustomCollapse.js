@@ -8,23 +8,24 @@ function CustomCollapse(props) {
 
     return (
         <React.Fragment>
-                        <Link to="#" onClick={toggleCollapse} className="text-dark" >
-                                            <CardHeader id="profile-user-headingOne">
-                                                <h5 className="font-size-14 m-0">
-                                                    {
-                                                        props.iconClass &&<i className={props.iconClass + " mr-2 align-middle d-inline-block"}></i>
-                                                    }
-                                                     {(props.title)}
-                                                    <i className={isOpen ? "mdi mdi-chevron-up float-right accor-plus-icon" : "mdi mdi-chevron-right float-right accor-plus-icon"}></i>
-                                                </h5>
-                                            </CardHeader>
-                                        </Link>
+            <Link to="#" onClick={toggleCollapse} className="text-dark" >
+                <CardHeader id="profile-user-headingOne">
+                    <h5 className="font-size-14 m-0">
+                        {
+                            props.iconClass &&<i className={props.iconClass + " mr-2 align-middle d-inline-block"}></i>
+                        }
+                         {(props.title)}
+                        <i className={isOpen ? "mdi mdi-chevron-up float-right accor-plus-icon" 
+                            : "mdi mdi-chevron-right float-right accor-plus-icon"}></i>
+                    </h5>
+                </CardHeader>
+            </Link>
 
-                                        <Collapse isOpen={isOpen}>
-                                            <CardBody>
-                                                {props.children}
-                                            </CardBody>
-                                        </Collapse>
+            <Collapse isOpen={isOpen}>
+                <CardBody>
+                    {props.children}
+                </CardBody>
+            </Collapse>
         </React.Fragment>
     );
 }

@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 
 import { TabContent, TabPane } from "reactstrap";
 
-// import Profile from "./Tabs/Profile";
+import Profile from "./Tabs/Profile";
 // import Groups from "./Tabs/Groups";
 // import Contacts from "./Tabs/Contacts";
-// import Settings from "./Tabs/Settings";
+import Settings from "./Tabs/Settings";
 import Chats from "./Tabs/Chats";
 
 function ChatLeftSidebar(props) {
@@ -18,7 +18,7 @@ function ChatLeftSidebar(props) {
 
                 <TabContent activeTab={activeTab}>
                     {/* <TabPane tabId="profile" id="pills-user">
-                        <Profile />
+                        <Profile userDetails = {props.allUserData.find(item => item.email === props.userEmail)} />
                     </TabPane> */}
 
                     <TabPane tabId="chat" id="pills-chat">
@@ -36,11 +36,11 @@ function ChatLeftSidebar(props) {
 
                     <TabPane tabId="contacts" id="pills-contacts">
                         <Contacts />
-                    </TabPane>
+                    </TabPane>*/}
 
                     <TabPane tabId="settings" id="pills-setting">
-                        <Settings />
-                    </TabPane> */}
+                        <Settings userDetails = {props.allUserData.find(item => item.email === props.userEmail)} />
+                    </TabPane> 
                 </TabContent>
 
                 </div>

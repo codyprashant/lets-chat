@@ -25,7 +25,7 @@ function UserChat(props) {
         const { docid } = props.chats[props.active_user];
         const { userEmail } = props;
         const time = Date.now()
-        console.log(time)
+        // console.log(time)
         const timestamp = Date.now();
         if(message && message !== '')
         await initFirebaseBackend().firestore().collection("chats").doc(docid).update({
@@ -115,20 +115,12 @@ function UserChat(props) {
                                                             <div className="ctext-wrap-content">
                                                                 {
                                                                     chat.message &&
-                                                                        <p className="mb-0">
+                                                                        <p className="mb-0  text-left">
                                                                             {chat.message}
                                                                         </p>
                                                                 }
                                                                 {/* {
-                                                                    chat.imageMessage &&
-                                                                        <ImageList images={chat.imageMessage} />
-                                                                }
-                                                                {
-                                                                    chat.fileMessage &&
-                                                                        <FileList fileName={chat.fileMessage} fileSize={chat.size} />
-                                                                } */}
-                                                                {
-                                                                    ((props.chats[props.active_user].typing).length > 0 && (props.chats[props.active_user].typing).includes(this.props.userEmail)) ? 
+                                                                    ((props.chats[props.active_user].typing).length > 0 && (props.chats[props.active_user].typing).includes((props.chats[props.active_user].users[0] !== props.userEmail ? props.chats[props.active_user].users[0] : props.chats[props.active_user].users[1]))) &&
                                                                         <p className="mb-0">
                                                                             typing
                                                                             <span className="animate-typing">
@@ -137,7 +129,9 @@ function UserChat(props) {
                                                                                 <span className="dot ml-1"></span>
                                                                             </span>
                                                                         </p>
-                                                                :
+                                                                } */}
+                                                                {
+                                                                    
                                                                     <p className="chat-time mb-0"> <span className="align-middle">{chat.time.seconds}  <i className="ri-check-double-fill"></i> </span></p>
                                                                 }
                                                             </div>
@@ -149,7 +143,7 @@ function UserChat(props) {
                                                                 {chat.sender === props.userEmail ? (props.allUserData.find(item => item.email === props.userEmail)).name
                                                                 : (props.allUserData.find(item => item.email === (props.chats[props.active_user].users.find(item => item !== props.userEmail)))).name}</div> 
                                                                 : <div className="conversation-name">
-                                                                    {chat.userType === "sender" ? "Admin" 
+                                                                    {chat.sender === props.userEmail ? (props.allUserData.find(item => item.email === props.userEmail)).name
                                                                     : (props.allUserData.find(item => item.email === (props.chats[props.active_user].users.find(item => item !== props.userEmail)))).name}
                                                                 </div>
                                                         }
@@ -160,7 +154,7 @@ function UserChat(props) {
                                 }
                                  </ul>
                                 </SimpleBar>   
-                        <ChatInput onaddMessage={addMessage} />
+                        <ChatInput onaddMessage={addMessage} chats={props.chats[props.active_user]}  userEmail={props.userEmail} />
                     </div>
                     <UserProfileSidebar activeUser={(props.allUserData.find(item => item.email === (props.chats[props.active_user].users.find(item => item !== props.userEmail))))} />
 

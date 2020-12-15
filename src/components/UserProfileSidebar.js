@@ -14,23 +14,10 @@ function UserProfileSidebar(props) {
         setIsOpen1(!isOpen1);
     };
 
-    // const toggleCollapse2 = () => {
-    //     setIsOpen2(!isOpen2);
-    //     setIsOpen1(false);
-    //     setIsOpen3(false);
-    // };
-
-    // const toggleCollapse3 = () => {
-    //     setIsOpen3(!isOpen3);
-    //     setIsOpen1(false);
-    //     setIsOpen2(false);
-    // };
-
     // closes sidebar
     const closeuserSidebar=()=> {
         props.closeUserSidebar();
     }
-    // style={{display: props.userSidebar  ? "block" : "none"}}
     return (
         <React.Fragment>
            <div style={{display: (props.userSidebar === true)  ? "block" : "none"}} className="user-profile-sidebar">
@@ -102,83 +89,9 @@ function UserProfileSidebar(props) {
                                             </div>
                                         </CustomCollapse>
                                 </Card>
-                                {/* End About card */}
-
-                                {/* <Card className="mb-1 shadow-none border">
-                                        <CustomCollapse
-                                            title = "Attached Files"
-                                            iconClass = "ri-attachment-line"
-                                            isOpen={isOpen2}
-                                            toggleCollapse={toggleCollapse2}
-                                        >
-                                            <AttachedFiles files={files} />
-                                        </CustomCollapse>
-                                </Card> */}
-
-                                {/* {
-                                    props.activeUser.isGroup === true &&
-                                    <Card className="mb-1 shadow-none border">
-                                        <CustomCollapse
-                                                title = "Members"
-                                                iconClass = "ri-group-line"
-                                                isOpen={isOpen3}
-                                                toggleCollapse={toggleCollapse3}
-                                            >
-                                                        <Card className="p-2 mb-2">
-                                                            <Media className="align-items-center">
-                                                                            <div className="chat-user-img align-self-center mr-3">
-                                                                                        <div className="avatar-xs">
-                                                                                            <span className="avatar-title rounded-circle bg-soft-primary text-primary">
-                                                                                                S
-                                                                                            </span>
-                                                                                        </div>
-                                                                                    </div>
-                                                                <Media body>
-                                                                    <div className="text-left">
-                                                                        <h5 className="font-size-14 mb-1">{t('Sara Muller')}
-                                                                        <Badge color="danger" className="badge-soft-danger float-right">{t('Admin')}</Badge>
-                                                                        </h5>
-                                                                    </div>
-                                                                </Media>
-                                                            </Media>
-                                                        </Card>
-
-                                                        <Card className="p-2 mb-2">
-                                                            <Media className="align-items-center">
-                                                                            <div className="chat-user-img align-self-center mr-3">
-                                                                                        <div className="avatar-xs">
-                                                                                            <span className="avatar-title rounded-circle bg-soft-primary text-primary">
-                                                                                                O
-                                                                                            </span>
-                                                                                        </div>
-                                                                                    </div>
-                                                                <Media body>
-                                                                    <div className="text-left">
-                                                                        <h5 className="font-size-14 mb-1">{t('Ossie Wilson')}</h5>
-                                                                    </div>
-                                                                </Media>
-                                                            </Media>
-                                                        </Card>
-
-                                                        <Card className="p-2 mb-2">
-                                                            <Media className="align-items-center">
-                                                                <div className="chat-avatar">
-                                                                    
-                                                                    <img src={avatar7} className="rounded-circle chat-user-img avatar-xs mr-3" alt="letschat" />
-                                                                </div>
-                                                                <Media body>
-                                                                    <div className="text-left">
-                                                                        <h5 className="font-size-14 mb-1">{t('Paul Haynes')}</h5>
-                                                                    </div>
-                                                                </Media>
-                                                            </Media>
-                                                        </Card>
-                                            </CustomCollapse>
-                                    </Card>
-                                } */}
+               
                             </div>
                         </SimpleBar>
-                        {/* end user-profile-desc */}
                         </div>
                 
          

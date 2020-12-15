@@ -6,7 +6,7 @@ import {
   DropdownToggle,
   Media,
   Button,
-  Input,
+  // Input,
   Row,
   Col,
 } from "reactstrap";
@@ -16,10 +16,10 @@ import { connect } from "react-redux";
 import { openUserSidebar, setFullUser } from "../../../redux/actions";
 
 function UserHead(props) {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  // const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownOpen1, setDropdownOpen1] = useState(false);
 
-  const toggle = () => setDropdownOpen(!dropdownOpen);
+  // const toggle = () => setDropdownOpen(!dropdownOpen);
   const toggle1 = () => setDropdownOpen1(!dropdownOpen1);
 
   const openUserSidebar = (e) => {
@@ -42,11 +42,7 @@ function UserHead(props) {
           <Col sm={4} xs={8}>
             <Media className="align-items-center">
               <div className="d-block d-lg-none mr-2">
-                <Link
-                  to="#"
-                  onClick={(e) => closeUserChat(e)}
-                  className="user-chat-remove text-muted font-size-16 p-2"
-                >
+                <Link to="#"  onClick={(e) => closeUserChat(e)} className="user-chat-remove text-muted font-size-16 p-2" >
                   <i className="ri-arrow-left-s-line"></i>
                 </Link>
               </div>
@@ -65,11 +61,7 @@ function UserHead(props) {
 
               <Media body className="overflow-hidden">
                 <h5 className="font-size-16 mb-0 text-truncate">
-                  <Link
-                    to="#"
-                    onClick={(e) => openUserSidebar(e)}
-                    className="text-reset user-profile-show"
-                  >
+                  <Link to="#" onClick={(e) => openUserSidebar(e)} className="text-reset user-profile-show" >
                     {props.allUserData.map((list) => {
                         if (list.email === (props.chats[props.active_user].users[0] !== props.userEmail ? props.chats[props.active_user].users[0] : props.chats[props.active_user].users[1])) {
                             return list.name;
@@ -79,26 +71,34 @@ function UserHead(props) {
                         }
                     })}
                   </Link>
-                  {props.allUserData.map((list) => {
+                  {props.allUserData.map((list, key) => {
                         if (list.email === (props.chats[props.active_user].users[0] !== props.userEmail ? props.chats[props.active_user].users[0] : props.chats[props.active_user].users[1])) {
-                            if(list.isOnline){
-                                return(<>
-                                    <i className="ri-record-circle-fill font-size-10 text-success d-inline-block ml-1"></i>
-                                 </>)
-                            } else{
-                                return(<>
-                                    <i className="ri-record-circle-fill font-size-10 text-secondary d-inline-block ml-1"></i>
-                                </>)
-                            }
-                        }
-                        else{
-                            return(<>
-                                <i className="ri-record-circle-fill font-size-10 text-secondary d-inline-block ml-1"></i>
-                            </>)
-                        }
+                          if(list.isOnline){
+                              return(<i key={key} className="ri-record-circle-fill font-size-10 text-success d-inline-block ml-1"></i>
+                               )
+                          } else{
+                              return(
+                                  <i key={key} className="ri-record-circle-fill font-size-10 text-secondary d-inline-block ml-1"></i>
+                              )
+                          }
+                      }
+                      else{
+                          return ""
+                      }
                     })
                   }
                 </h5>
+                {
+                  ((props.chats[props.active_user].typing).length > 0 && (props.chats[props.active_user].typing).includes((props.chats[props.active_user].users[0] !== props.userEmail ? props.chats[props.active_user].users[0] : props.chats[props.active_user].users[1]))) &&
+                  <p className="mb-0">
+                      typing
+                      <span className="animate-typing">
+                          <span className="dot ml-1"></span>
+                          <span className="dot ml-1"></span>
+                          <span className="dot ml-1"></span>
+                      </span>
+                  </p>
+                }
               </Media>
             </Media>
           </Col>

@@ -44,8 +44,8 @@ export default class Index extends Component {
       try {
         if (id !== "undefined") {
           await initFirebaseBackend().firestore().collection("users").doc(id).update({
-            isonline: true,
-            isverify: true,
+            isOnline: true,
+            // isVerify: true,
           });
         } else {
           await this.onlineStatusUpdate();
@@ -59,66 +59,46 @@ export default class Index extends Component {
     }, 2000);
   };
 
-  getBlockList = async () => {
-    const { allUserData, email } = this.state;
+  // getBlockList = async () => {
+  //   const { allUserData, email } = this.state;
 
-    const list = allUserData.forEach(async (obj) => {
-      if (obj.email === email) {
-        // console.log(obj.blocklist);
-        await this.setState({ blockList: obj.blocklist });
-      }
-    });
-  };
+  //   const list = allUserData.forEach(async (obj) => {
+  //     if (obj.email === email) {
+  //       await this.setState({ blockList: obj.blocklist });
+  //     }
+  //   });
+  // };
 
   getAllUsersData = async () => {
     await initFirebaseBackend().firestore().collection("users").onSnapshot(async (snapshot) => {
       var dt = snapshot.docs.map((docs) => docs.data());
 
       await this.setState({ allUserData: dt });
-      await this.getBlockList();
+      // await this.getBlockList();
     });
   };
 
   getInfo = async (user, emails) => {
-    await initFirebaseBackend().firestore()
-      .collection("chats")
-      .where("users", "array-contains", user.email)
-      .onSnapshot(async (res) => {
+    await initFirebaseBackend().firestore().collection("chats").where("users", "array-contains", user.email).onSnapshot(async (res) => {
         const chats = res.docs.map((docs) => docs.data());
 
         chats.sort((a, b) => {
-          if (a.time < b.time) {
-            return 1;
-          } else if (a.time > b.time) {
-            return -1;
-          } else {
-            return 0;
-          }
+          if (a.time < b.time) { return 1;}
+          else if (a.time > b.time) { return -1; }
+          else { return 0; }
         });
 
         var chatList = [];
 
         if (emails) {
           chatList = await chats.filter((chats) => {
-            var getEmail =
-              chats.users[0] !== user.email ? chats.users[0] : chats.users[1];
-
-            if (emails.includes(getEmail)) {
-              return chats;
-            }
+            var getEmail = chats.users[0] !== user.email ? chats.users[0] : chats.users[1];
+            if (emails.includes(getEmail)) { return chats;}
           });
         }
 
-        if (!emails) {
-          await this.setState({
-            email: user.email,
-            chats: chats,
-          });
-        } else {
-          await this.setState({
-            email: user.email,
-            chats: chatList,
-          });
+        if (!emails) { await this.setState({ email: user.email, chats: chats, }); }
+        else { await this.setState({ email: user.email, chats: chatList, });
         }
       });
   };
@@ -144,13 +124,15 @@ export default class Index extends Component {
   render() {
     return (
         <React.Fragment>
+          {this.state.chats.length > 0 ?
+          <>
           <ChatLeftSidebar     
             history={this.props.history}
             chats={this.state.chats}
             userEmail={this.state.email}
             allUserData={this.state.allUserData} 
             />
-            {this.state.chats.length > 0 ?
+            
                 <UserChat 
                     // recentChatList={users} 
                     history={this.props.history}
@@ -158,6 +140,7 @@ export default class Index extends Component {
                     userEmail={this.state.email}
                     allUserData={this.state.allUserData} 
                  />
+                 </>
                  : null
             }
         </React.Fragment>
